@@ -13,7 +13,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); 
 
     let newErrors = { name: "", email: "", password: "" };
 
@@ -22,23 +22,21 @@ const Login = () => {
     if (!email) newErrors.email = "Email is required.";
     if (!password) newErrors.password = "Password is required.";
 
-    // Check for valid credentials
-    if (email !== 'login@tunga.com' || password !== 'tunga123') {
-      newErrors.email = "Invalid email or password.";
-      newErrors.password = "Invalid email or password.";
+    
+    if (email && password && (email !== "login@tunga.com" || password !== "tunga123")) {
+      if (email !== "login@tunga.com") newErrors.email = "Incorrect email. Enter the correct email.";
+      if (password !== "tunga123") newErrors.password = "Incorrect password. Enter the correct password.";
     }
 
     setErrors(newErrors);
 
-    // If there are any errors, return without submitting
+  
     if (Object.values(newErrors).some(error => error)) {
       return;
     }
 
-    // Dispatch login action
+    
     dispatch(login({ name, email }));
-
-    // Show success message and navigate to students page
     alert(`Welcome, ${name}!`);
     navigate("/students");
   };
@@ -103,7 +101,7 @@ const Login = () => {
             type={passwordVisible ? "text" : "password"}
             placeholder="Enter Password"
             value={password}
-            required
+            
             className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-[#873e23]"
           />
           <button
