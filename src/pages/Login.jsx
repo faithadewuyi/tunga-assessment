@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../auth/auth';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [name, setName] = useState("");
@@ -11,6 +12,7 @@ const Login = () => {
   const [errors, setErrors] = useState({ name: "", email: "", password: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userData = {name, email}
 
   const handleLogin = (e) => {
     e.preventDefault(); 
@@ -35,9 +37,11 @@ const Login = () => {
       return;
     }
 
+    const userData = {name, email}
+    localStorage.setItem("user", JSON.stringify(userData));
     
-    dispatch(login({ name, email }));
-    alert(`Welcome, ${name}!`);
+    dispatch(login(userData));
+    toast.success(`Welcome, ${name}!`);
     navigate("/students");
   };
 

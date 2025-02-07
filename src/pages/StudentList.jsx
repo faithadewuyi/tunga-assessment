@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import { studentsData } from '../context/StudentContext';
+import { toast } from 'react-toastify';
 
 const StudentList = () => {
     const user = useSelector((state)=> state.auth.user);
@@ -21,10 +22,12 @@ const StudentList = () => {
           student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           student.course.toLowerCase().includes(searchTerm.toLowerCase())
       );
-    const handleLogout=()=>{
-        dispatch(logout());
-        navigate("/")
-    }
+      const handleLogout = () => {
+        localStorage.removeItem("user");
+        toast.info("Logged out successfully!");
+        navigate("/");
+      };
+      
 
     if(!user){
         navigate("/login");
@@ -91,8 +94,8 @@ const StudentList = () => {
           </tbody>
         </table>
       </div>
-      //  <button onClick={handleLogout} className="mt-4 bg-red-500 text-white py-1 px-4 rounded">
-Logout
+      <button onClick={handleLogout} className="mt-4 bg-red-500 text-white py-1 px-4 rounded">
+        Logout
 </button>
     </div>
   );
