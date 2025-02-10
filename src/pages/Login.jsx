@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../auth/auth';
 import { toast } from 'react-toastify';
 
@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 mt-10 bg-[#b37159]">
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#b37159]">
       <form
         onSubmit={handleLogin}
         className="bg-white shadow-sm rounded-xl p-8 max-w-xl max-h-auto w-full space-y-4"
@@ -124,6 +124,12 @@ const Login = () => {
         >
           Login
         </button>
+        <div className="flex justify-center items-center mt-4">
+          <p className="text-sm">Don't have an account?</p>
+          <Link to="/signup" className="ml-2 text-[#873e23] font-semibold hover:underline">
+            Sign Up
+          </Link>
+        </div>
       </form>
     </div>
   );

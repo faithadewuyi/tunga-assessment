@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import StudentDetail from './pages/StudentDetail';
 import EditStudent from './pages/EditSudent';
+import SignUp from './pages/SignUp';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           
           {/* Protected Routes */}
           <Route element={<ProtectedRoutes />}>

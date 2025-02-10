@@ -26,10 +26,10 @@ const Navbar = () => {
               Student
             </Link>
             <button onClick={()=>{
-              navigate("/login")
+              navigate("/signup")
               setIsOpen(false)
             }} className="w-full bg-[#873e23] text-white py-2 rounded-full hover:bg-[#5a2b18] px-4 transition duration-300 pointer">
-           Login 
+           Sign Up 
              </button>
           </div>
         </div>
