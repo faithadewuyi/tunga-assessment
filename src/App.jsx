@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Navbar from './components/Navbar';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import StudentDetail from './pages/StudentDetail';
+import EditStudent from './pages/EditSudent';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route element={<ProtectedRoutes />}>
             <Route path="/students" element={<StudentList />} />
             <Route path = "/students/:id" element={<StudentDetail/>}/>
+            <Route path="/students/:id/edit" element={<EditStudent />} />
           </Route>
           
 

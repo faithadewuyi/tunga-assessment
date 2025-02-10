@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { studentsData } from "../context/StudentContext";
 
 const StudentDetail = () => {
@@ -26,6 +26,12 @@ const StudentDetail = () => {
       >
         Back
       </button>
+      <Link
+         to={`/students/${student.id}/edit`}
+         className="bg-blue-400 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
+         >
+         Edit
+        </Link>
     </div>
   );
 };
