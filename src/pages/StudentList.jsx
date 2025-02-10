@@ -8,6 +8,8 @@ const StudentList = () => {
     const user = useSelector((state)=> state.auth.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [isOpen, setIsOpen] =useState(false);
     const loggedInUser = useSelector((state) => state.auth.user); 
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -24,7 +26,7 @@ const StudentList = () => {
       );
       const handleLogout = () => {
         localStorage.removeItem("user");
-        toast.info("Logged out successfully!");
+        toast.info("See you soon!");
         navigate("/");
       };
       
@@ -33,10 +35,12 @@ const StudentList = () => {
         navigate("/login");
         return null
     }
+
+    const toggleDropdown=()=> setIsOpen(!isOpen)
   return (
      <div className="min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold text-[#873e23] mb-6 text-center">
-        {user.name}
+       Hi, {user.name}
       </h1>
 
       {/* Search Input */}
@@ -74,12 +78,27 @@ const StudentList = () => {
                   <td className="py-2 px-4">{student.age}</td>
                   <td className="py-2 px-4">{student.course}</td>
                   <td className="py-2 px-4">{student.enrollmentDate}</td>
-                  <td className="py-2 px-4">
-                    <Link
+                  <td className="py-2 px-4 relative">
+                    <button
+                    onClick={toggleDropdown}
+                    >&#x22EE;</button>
+                    {isOpen &&(
+                       <div className="absolute top-0 right-0 bg-white shadow-lg rounded-md mt-2 w-32">
+                       <Link
                       to={`/students/${student.id}`}
                       className="bg-[#873e23] text-white py-1 px-4 rounded-full hover:bg-[#5a2b18] transition duration-300"
                     >
                       View
+                    </Link>
+                      
+                     </div>
+                    )}
+                    
+                    <Link
+                      to={`/students/${student.id}/edit`}
+                      className="bg-blue-400 text-white py-1 px-4 rounded-full hover:bg-blue-700 transition duration-300"
+                    >
+                      Edit
                     </Link>
                   </td>
                 </tr>
@@ -105,7 +124,3 @@ const StudentList = () => {
 
 export default StudentList
 
-
-//  <button onClick={handleLogout} className="mt-4 bg-red-500 text-white py-1 px-4 rounded">
-//Logout
-//</button>

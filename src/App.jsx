@@ -1,34 +1,34 @@
 import React from 'react';
-import Home from './pages/Home';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import StudentList from './pages/StudentList';
-import Login from './pages/Login';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Navbar from './components/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ProtectedRoutes from './components/ProtectedRoutes';
-const App = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
+import Home from './pages/Home';
+import StudentList from './pages/StudentList';
+import Login from './pages/Login';
+import Navbar from './components/Navbar';
+import ProtectedRoutes from './components/ProtectedRoutes';
+import StudentDetail from './pages/StudentDetail';
+
+const App = () => {
   return (
     <Router>
-      <Navbar/>
-      <div className="pt-8">
-        <ToastContainer position="top-right" autoClose={3000}/>
-      <Routes>
-        <Route path={<ProtectedRoutes/>}>
+      <Navbar />
+      <div className="pt-16">
+        <ToastContainer position="top-right" autoClose={3000} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/students" element={<StudentList />} />
+            <Route path = "/students/:id" element={<StudentDetail/>}/>
+          </Route>
+          
 
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/students"
-          element={isAuthenticated ? <StudentList /> : <Navigate to="/login" />}
-        />
-        
-        </Route>
-        
-      </Routes>
+        </Routes>
       </div>
     </Router>
   );
