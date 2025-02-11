@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { auth } from "../auth/firebase";
 import { login } from "../auth/auth";
 
 const SignUp = () => {
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -13,16 +14,17 @@ const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
 
-  // Email validation regex
+  
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     
-    // Reset errors
-    setErrors({ email: "", password: "" });
-
-    // Validation checks
+    setErrors({ name: "", email: "", password: "" });
+    if (!name){
+        setErrors((prev)=>({ ...prev, name: "Name is required"}))
+        return;
+    }
     if (!email) {
       setErrors((prev) => ({ ...prev, email: "Email is required" }));
       return;
@@ -38,7 +40,14 @@ const SignUp = () => {
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      dispatch(login(userCredential.user));
+      await updateProfile(userCredential.user, { displayName: name });
+
+      const userData= {
+        name: userCredential.user.displayName,
+        email: userCredential.user.email,
+      }
+      dispatch(login(userData));
+      localStorage.setItem("user", JSON.stringify(userData));
       navigate("/students");
     } catch (error) {
       console.error(error.message);
@@ -51,6 +60,22 @@ const SignUp = () => {
       <form onSubmit={handleSignUp} className="bg-white shadow-sm rounded-xl p-8 max-w-xl w-full space-y-4">
         <h1 className="text-2xl font-bold text-center text-[#873e23] mb-6">Welcome, Please Sign Up</h1>
 
+        {/* Name Input */}
+        <div className="mb-4">
+        <label className="block text-lg font-semibold mb-2 text-[#873e23]">Full Name</label>
+        <input
+        type="text"
+        placeholder="Enter Your Name"
+        value={name}
+        onChange={(e) => {
+        setName(e.target.value);
+      setErrors((prev) => ({ ...prev, name: "" }));
+    }}
+    className="w-full px-4 py-2 border rounded-full focus:ring-2 focus:ring-[#873e23]"
+  />
+  {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+</div>
+
         {/* Email Input */}
         <div className="mb-4">
           <label className="block text-lg font-semibold mb-2 text-[#873e23]">Email</label>
@@ -60,7 +85,7 @@ const SignUp = () => {
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-              setErrors((prev) => ({ ...prev, email: "" })); // Clear error when typing
+              setErrors((prev) => ({ ...prev, email: "" })); 
             }}
             className="w-full px-4 py-2 border rounded-full focus:ring-2 focus:ring-[#873e23]"
           />
@@ -76,7 +101,7 @@ const SignUp = () => {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              setErrors((prev) => ({ ...prev, password: "" })); // Clear error when typing
+              setErrors((prev) => ({ ...prev, password: "" })); 
             }}
             className="w-full px-4 py-2 border rounded-full focus:ring-2 focus:ring-[#873e23]"
           />

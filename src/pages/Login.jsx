@@ -2,48 +2,47 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../auth/auth';
+import { auth } from "../auth/firebase";
+
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from 'react-toastify';
 
 const Login = () => {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [errors, setErrors] = useState({ name: "", email: "", password: "" });
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userData = {name, email}
 
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault(); 
 
-    let newErrors = { name: "", email: "", password: "" };
-
-    // Basic validation checks
-    if (!name) newErrors.name = "Name is required.";
-    if (!email) newErrors.email = "Email is required.";
-    if (!password) newErrors.password = "Password is required.";
-
-    
-    if (email && password && (email !== "login@tunga.com" || password !== "tunga123")) {
-      if (email !== "login@tunga.com") newErrors.email = "Incorrect email. Enter the correct email.";
-      if (password !== "tunga123") newErrors.password = "Incorrect password. Enter the correct password.";
-    }
-
-    setErrors(newErrors);
-
-  
-    if (Object.values(newErrors).some(error => error)) {
+    setErrors({ email: "", password: "" });
+   
+    if (!email) {
+      setErrors((prev) => ({ ...prev, email: "Email is required." }));
       return;
     }
-
-    const userData = {name, email}
-    localStorage.setItem("user", JSON.stringify(userData));
+    if (!password) {
+      setErrors((prev) => ({ ...prev, password: "Password is required." }));
+      return;
+    }
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      dispatch (login(user))
     
-    dispatch(login(userData));
-    toast.success(`Welcome, ${name}!`);
+    toast.success(`Welcome back, ${user.email}!`);
     navigate("/students");
-  };
+  }
+  catch (error) {
+    console.error("Login Error:", error.message);
+    setErrors((prev) => ({ ...prev, password: "Invalid email or password." }));
+  }
+}
 
   return (
     <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#b37159]">
@@ -54,27 +53,7 @@ const Login = () => {
         <h1 className="text-2xl font-bold text-center text-[#873e23] mb-6">
           Please Login 
         </h1>
-        <p>Check the Home page for the login credentials</p>
-
-        <div className="mb-4">
-          <label 
-            htmlFor="name"
-            className="block text-lg  font-semibold mb-2 text-[#873e23]"
-          >
-            Name
-          </label>
-          <input
-            name="name"
-            onChange={(e) => setName(e.target.value)}
-            type="text"
-            placeholder="Enter Your Name"
-            value={name}
-            className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-[#873e23]"
-          />
-          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-        </div>
-
-        <div className="mb-4">
+          <div className="mb-4">
           <label 
             htmlFor="email"
             className="block text-lg  font-semibold mb-2 text-[#873e23]"
