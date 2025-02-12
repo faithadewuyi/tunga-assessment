@@ -14,8 +14,7 @@ const StudentList = () => {
     return <Navigate to="/login" replace />;
   }
 
-  // Ensure we're not mutating studentsData directly
-  const updatedStudentsData = studentsData.map((student, index) =>
+   const updatedStudentsData = studentsData.map((student, index) =>
     index === 0 ? { ...student, name: user.name, email: user.email } : student
   );
 

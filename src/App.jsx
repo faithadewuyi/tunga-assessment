@@ -15,6 +15,7 @@ import SignUp from './pages/SignUp';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './auth/firebase';
 import { login, logout, setLoading } from './auth/auth';
+import Footer from './components/Footer';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ const App = () => {
 
         </Routes>
       </div>
+      <Footer/>
     </Router>
   );
 };

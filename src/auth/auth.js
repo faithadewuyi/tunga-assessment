@@ -40,16 +40,16 @@ export const authSlice = createSlice({
     login: (state, action) => {
       state.isAuthenticated = true;
       state.user = action.payload;
-      state.loading = false; // ✅ Set loading to false when logged in
+      state.loading = false; 
     },
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;
-      state.loading = false; // ✅ Ensure loading is false on logout
+      state.loading = false; 
     },
     setLoading: (state, action) => {
-      state.loading = action.payload; // 🔥 Control loading manually
-    },
+      state.loading = action.payload; 
+         },
   },
 });
 

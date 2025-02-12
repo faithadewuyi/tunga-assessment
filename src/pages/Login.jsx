@@ -45,10 +45,10 @@ const Login = () => {
 }
 
   return (
-    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#b37159]">
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 b-[#837159">
       <form
         onSubmit={handleLogin}
-        className="bg-white shadow-sm rounded-xl p-8 max-w-xl max-h-auto w-full space-y-4"
+        className="bg-[#837159] border-[#873e23] white shadow-sm rounded-xl p-8 max-w-xl max-h-auto w-full space-y-4"
       >
         <h1 className="text-2xl font-bold text-center text-[#873e23] mb-6">
           Please Login 

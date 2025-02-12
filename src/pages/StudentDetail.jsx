@@ -49,7 +49,7 @@ const StudentDetail = () => {
       </button>
       <Link
          to={`/students/${student.id}/edit`}
-         className="bg-blue-400 text-white py- px-4 rounded hover:bg-blue-700 transition duration-300 ml-2"
+         className="bg-blue-400 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 ml-2"
          >
          Edit
         </Link>
