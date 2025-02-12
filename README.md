@@ -1,6 +1,8 @@
 # Student Management System
 
-This project evaluates React proficiency with state management using Redux. It's the first assessment for Tunga Academy.
+         This project evaluates React proficiency with state management using Redux and firebase authentication. 
+         It's the first assessment for Tunga.
+
 
 ## Features
 - User authentication (Login required)
@@ -34,13 +36,9 @@ This project evaluates React proficiency with state management using Redux. It's
    npm start
    ```
 
-## Login Credentials
+## Sign up and Login 
 Please log in to access the student management system.
 
-### Demo Credentials:
-- **Name:** Enter your name
-- **Email:** `login@tunga.com`
-- **Password:** `tunga123`
 
 ## Usage
 - After logging in, you can view the list of students.
